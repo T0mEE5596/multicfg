@@ -38,6 +38,8 @@ int find_node_start(struct cords *cordinate, char *rootname, int namesize, char 
   size_t name_length = 0;
   int onnode = 0;  /* iteration/boolean value indicating if loop is on node data iteration or not
 		         * used to skip data inside node brackets    */
+  int onstr = 0;   // indicates if current iteration state is on string * used to ignore in-string brackets
+
   char namebuffer[namesize];  // compare buffer
   cordinate->start = 0;
   FILE *f = fopen(file, "r");
@@ -59,7 +61,17 @@ int find_node_start(struct cords *cordinate, char *rootname, int namesize, char 
   for (int l = 0; l <= i - 1; l++) {
     for (int c = 0; buffer[l][c] != '\n'; c++) {
 
-      if(buffer[l][c] == '}' && onnode){
+      if (buffer[l][c] == 34) {
+        if (onstr) {
+	  onstr = 0;
+	  continue;
+	}
+	onstr = 1;
+	continue;
+      }
+      if (onstr) continue;
+
+      if (buffer[l][c] == '}' && onnode) {
         onnode--;
 	continue;
       }else if(onnode > 0) continue;
@@ -87,6 +99,7 @@ int find_node_start(struct cords *cordinate, char *rootname, int namesize, char 
 
 int find_node_end(struct cords *cordinate, char **buffer) {
   int innode = 0;
+  int instr = 0;
   cordinate->end = 0;
 
   for(int i=cordinate->start;; i++) {
@@ -94,12 +107,22 @@ int find_node_end(struct cords *cordinate, char **buffer) {
 
       printf("%c", buffer[i][j]);
 
-      if(innode == 0 && i != cordinate->start) {
+      if (buffer[i][j] == 34) {
+        if (instr) {
+	  instr = 0;
+	  continue;
+	}
+	instr = 1;
+	continue;
+      }
+
+      if (instr) continue;
+      if (innode == 0 && i != cordinate->start) {
         cordinate->end = i;
 	return 0;
       }
-      if(buffer[i][j] == '{') innode++;
-      else if(buffer[i][j] == '}' && innode) innode--;
+      if (buffer[i][j] == '{') innode++;
+      else if (buffer[i][j] == '}' && innode) innode--;
     }
   }
   return -1;

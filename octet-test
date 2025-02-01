@@ -1,0 +1,21 @@
+
+
+
+
+ option-1 {
+    title = "{ help "
+    file = "modu}}}}}les/get-started"
+
+}
+
+ option-2 {
+    title = "focus se{ction"
+    file = "modules/focus"
+}
+
+
+
+ option-3 {
+    title = "status section"
+    file = "modules/show-user_status"
+}
