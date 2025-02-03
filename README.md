@@ -5,7 +5,7 @@ a config manager equivalent to JSON written for C
 it works the same but every tree is a single node
 nested nodes are not implemented yet it supports strings
 
-#here's how it works:
+# here's how it works:
 
 
 `find_node_start();` is first function to find node and initial `cords` structure
