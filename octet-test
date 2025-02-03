@@ -1,21 +1,19 @@
 
 
-
-
  option-1 {
-    title = "{ help "
-    file = "modu}}}}}les/get-started"
+    title = "|   new here?   |"
+    file = "/home/tom5596/c-todo-list/modules/get-started"
 
 }
 
  option-2 {
-    title = "focus se{ction"
-    file = "modules/focus"
+    title = "| focus section |"
+    file = "/home/tom5596/c-todo-list/modules/focus"
 }
 
 
 
  option-3 {
-    title = "status section"
-    file = "modules/show-user_status"
+    title = "| status sec... |"
+    file = "/home/tom5596/c-todo-list/modules/show-user_status"
 }
