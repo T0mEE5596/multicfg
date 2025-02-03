@@ -208,7 +208,7 @@ int main(int argc, char *argv[]) {
   if (cum == 0) printf("[+]: key founded\n");
   else printf("[!]: key not found\n");
   printf("\nopened in line: %d\nended in line: %d\nreturned code: %d\n"\
-		  "finded any end?: %d\nfounded value?:%d\nvalue:%s", c.start, c.end, sex, sex1, cum, c.value);
+		  "founded any end?: %d\nfounded any value?:%d\nvalue:%s", c.start, c.end, sex, sex1, cum, c.value);
   return 0;
 
 
