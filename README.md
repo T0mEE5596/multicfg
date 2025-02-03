@@ -14,11 +14,11 @@ first off, you pass cords struct, filename, node name and size of it
 it iterates into that file and copying it into a 2d buffer
 then it iterates again into that buffer to finds the row that is start of desired node by a comparison procedure
 
-that row then copied into `cords->start` to be used in `find_row_end();`
+that row then copied into `cords->start` to be used in `find_node_end();`
 
 the process of finding the end or length of node starts in `find_node_end();` function
 
-it iterates from `cord->start` and evaluating times that curly backets appeared in buffer then `cords->end` is founded
+it iterates from `cords->start` and evaluating times that curly backets appeared in buffer then `cords->end` is founded
 
 **and final step is finding the value of key in node children**
 

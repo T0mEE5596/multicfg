@@ -156,7 +156,6 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
       if (key_length == keysize) {
         keybuffer[key_length + 1] = '\0';
 	if (stringcmp(key, keybuffer) == 0) {
-	  printf("\n[+]: hell yeah\n>>>%s", buffer[i]);
 	  while (buffer[i][j] != '\0') {
 	    if (buffer[i][j] == '=') {
 	      int c = 1;
@@ -181,7 +180,6 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
       }
     }
   }
-  printf("\nnahhh!, I'd win...\n");
   return -1;
 }
 
@@ -201,8 +199,14 @@ int main(int argc, char *argv[]) {
     perror("file not found\n");
     return 2;
   }
+  if (sex == -1) {
+    printf("[!]: node not found\n");
+    return 3;
+  }
   int sex1 = find_node_end(&c, buffer_ptr);
   int cum = getvalue(&c, argv[2], count(argv[2]), buffer_ptr);
+  if (cum == 0) printf("[+]: key founded\n");
+  else printf("[!]: key not found\n");
   printf("\nopened in line: %d\nended in line: %d\nreturned code: %d\n"\
 		  "finded any end?: %d\nfounded value?:%d\nvalue:%s", c.start, c.end, sex, sex1, cum, c.value);
   return 0;
