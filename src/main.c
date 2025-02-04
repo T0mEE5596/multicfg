@@ -183,7 +183,7 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
   return -1;
 }
 
-
+/*
 
 int main(int argc, char *argv[]) {
   if (argc < 3) {
@@ -213,4 +213,4 @@ int main(int argc, char *argv[]) {
 
 
 }
-
+*/

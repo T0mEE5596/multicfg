@@ -1,1 +1,2 @@
-gcc main.c -o output
+gcc -c src/main.c -o main.o
+
