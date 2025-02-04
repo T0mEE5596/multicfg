@@ -183,34 +183,3 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
   return -1;
 }
 
-/*
-
-int main(int argc, char *argv[]) {
-  if (argc < 3) {
-    perror("too few arguments\n");
-    return 1;
-  }
-  struct cords c;
-  char *buffer[MAX_LEN];
-  char **buffer_ptr = buffer;
-
-  int sex = find_node_start(&c, argv[1], count(argv[1]), argv[3], buffer_ptr);
-  if (sex == -2) {
-    perror("file not found\n");
-    return 2;
-  }
-  if (sex == -1) {
-    printf("[!]: node not found\n");
-    return 3;
-  }
-  int sex1 = find_node_end(&c, buffer_ptr);
-  int cum = getvalue(&c, argv[2], count(argv[2]), buffer_ptr);
-  if (cum == 0) printf("[+]: key founded\n");
-  else printf("[!]: key not found\n");
-  printf("\nopened in line: %d\nended in line: %d\nreturned code: %d\n"\
-		  "founded any end?: %d\nfounded any value?:%d\nvalue:%s", c.start, c.end, sex, sex1, cum, c.value);
-  return 0;
-
-
-}
-*/
