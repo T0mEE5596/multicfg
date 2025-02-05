@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAX_LEN 300
+#include "multicfg.h"
+//#define MAX_LEN 300
 
 // mines strcmp (because string.h's strcmp doesnt work properly in my code *idk why)
 int stringcmp(char *str1, char *str2) {
@@ -26,12 +27,13 @@ int count(char *str) {
   return ret;
 }
 
+/*
 struct cords {
   int start; // start row of node
   int end; // end row of node (length)
   char value[MAX_LEN];
 };
-
+*/
 int find_node_start(struct cords *cordinate, char *rootname, int namesize, char *file,
               char **buffer) {
   namesize--;
