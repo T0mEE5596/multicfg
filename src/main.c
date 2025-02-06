@@ -129,7 +129,6 @@ int find_node_end(struct cords *cordinate, char **buffer) {
   }
   return -1;
 }
-// @TODO: fixing qoute character escape sequence:
 
 int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
   keysize--;
@@ -141,7 +140,7 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
     for (int j = 0; buffer[i][j] != '\n'; j++) {
 
       if (buffer[i][j] == 34) {
-        if (instr) {
+        if (instr && buffer[i][j-1] != '\\') {
 	  instr = 0;
 	  continue;
 	}
