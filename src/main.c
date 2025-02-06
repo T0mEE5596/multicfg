@@ -129,7 +129,7 @@ int find_node_end(struct cords *cordinate, char **buffer) {
   }
   return -1;
 }
-// @TODO: fixing qoute character escape sequence:
+// @TODO: fixing quote character escape sequence:
 
 int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
   keysize--;
