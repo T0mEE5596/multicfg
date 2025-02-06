@@ -1,28 +1,25 @@
-
-
- option-1 {
+option-1 {
     title = "|   new here?   |"
     file = "/home/tom5596/c-todo-list/modules/get-started"
 
 }
 
- option-2 {
+option-2 {
     title = "|    themes     |"
     file = "/home/tom5596/c-todo-list/theme-engine"
 }
 
- option-3 {
+option-3 {
     title = "| focus section |"
     file = "/home/tom5596/c-todo-list/modules/focus-app"
 }
 
- option-4 {
+option-4 {
     title = "|   online      |"
     file = "/home/tom5596/c-todo-list/modules/go-online"
 }
 
-
- option-5 {
+option-5 {
     title = "| status sec... |"
     file = "/home/tom5596/c-todo-list/modules/show-user_status"
 }

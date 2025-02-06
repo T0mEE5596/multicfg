@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAX_LEN 300
+#include "multicfg.h"
 
 // mines strcmp (because string.h's strcmp doesnt work properly in my code *idk why)
 int stringcmp(char *str1, char *str2) {
@@ -25,12 +25,6 @@ int count(char *str) {
   }
   return ret;
 }
-
-struct cords {
-  int start; // start row of node
-  int end; // end row of node (length)
-  char value[MAX_LEN];
-};
 
 int find_node_start(struct cords *cordinate, char *rootname, int namesize, char *file,
               char **buffer) {
@@ -95,6 +89,8 @@ int find_node_start(struct cords *cordinate, char *rootname, int namesize, char 
         }
       }
     }
+    namebuffer[name_length] = '\0';
+    name_length = 0;
   }
   return -1;
 }
@@ -155,11 +151,11 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
       }
       if (key_length == keysize) {
         keybuffer[key_length + 1] = '\0';
-	if (stringcmp(key, keybuffer) == 0) {
+	if (stringcmp(keybuffer, key) == 0) {
 	  while (buffer[i][j] != '\0') {
 	    if (buffer[i][j] == '=') {
-	      int c = 1;
-	      for (j; buffer[i][j] != '\0'; j++) {
+	      int c = 0;
+	      for (; buffer[i][j] != '\0'; j++) {
 	        if (buffer[i][j] == 34) {
 		  if (instr) {
 		    return 0;

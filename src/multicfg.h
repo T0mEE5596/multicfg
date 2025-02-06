@@ -5,3 +5,4 @@ struct cords {
     int end;
     char value[MAX_LEN];
 };
+

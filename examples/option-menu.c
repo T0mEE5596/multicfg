@@ -1,3 +1,4 @@
+#include<string.h>
 #include<stdio.h>
 #include "../src/multicfg.h"
 
@@ -15,7 +16,12 @@ int main(int argc, char *argv[]) {
     char* buffer[MAX_LEN];
     char** buffer_ptr = buffer;
 
-    int open_node = find_node_start(&c, argv[1], count(argv[1]), argv[3], buffer_ptr);
+    char r[255];
+    if (strlen(argv[1]) > 255) return 4;
+    strcpy(r, argv[1]);
+    strcat(r, "0");
+
+    int open_node = find_node_start(&c, r, strlen(r), argv[3], buffer_ptr);
     if (open_node == -2) {
         perror("file not found\n");
 	return 2;
@@ -25,7 +31,13 @@ int main(int argc, char *argv[]) {
 	return 3;
     }
     int close_node = find_node_end(&c, buffer_ptr);
-    int retvalue = getvalue(&c, argv[2], count(argv[2]), buffer_ptr);
+
+
+    if (strlen(argv[2]) > 255) return 4;
+    strcpy(r, argv[2]);
+    strcat(r, "0");
+
+    int retvalue = getvalue(&c, r, strlen(r), buffer_ptr);
     if (retvalue == 0) printf("[+]: key founded");
     else printf("[!]: key not found");
     printf("\nopened in line: %d\nended in line: %d\nreturned code: %d\nfounded any end?: %d\nfounded any value?: %d\nvalue: %s", c.start, c.end, open_node, close_node, retvalue, c.value);
