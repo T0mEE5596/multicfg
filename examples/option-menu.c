@@ -17,7 +17,10 @@ int main(int argc, char *argv[]) {
     char** buffer_ptr = buffer;
 
     char r[255];
-    if (strlen(argv[1]) > 255) return 4;
+    if (strlen(argv[1]) > 255){
+        printf("exceeded the buffer length");
+        return 4;
+    }
     strcpy(r, argv[1]);
     strcat(r, "0");
 
@@ -25,15 +28,24 @@ int main(int argc, char *argv[]) {
     if (open_node == -2) {
         perror("file not found\n");
 	return 2;
-    }
-    if (open_node == -1) {
+    }else if (open_node == -1) {
         printf("[!]: node not found");
 	return 3;
+    }else if (open_node == -3) {
+        printf("[!]: unclosed string");
+	return 5;
     }
     int close_node = find_node_end(&c, buffer_ptr);
+    if (close_node == -2) {
+        printf("[!]: unclosed string");
+	return 5;
+    }
 
 
-    if (strlen(argv[2]) > 255) return 4;
+    if (strlen(argv[2]) > 255){
+        printf("exceeded the buffer length");
+        return 4;
+    }
     strcpy(r, argv[2]);
     strcat(r, "0");
 

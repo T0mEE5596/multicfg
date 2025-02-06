@@ -59,7 +59,8 @@ int find_node_start(struct cords *cordinate, char *rootname, int namesize, char 
     for (int c = 0; buffer[l][c] != '\n'; c++) {
 
       if (buffer[l][c] == 34) {
-        if (onstr) {
+        if (buffer[l][c - 1] == '\\') continue;
+	if (onstr) {
 	  onstr = 0;
 	  continue;
 	}
@@ -90,6 +91,7 @@ int find_node_start(struct cords *cordinate, char *rootname, int namesize, char 
         }
       }
     }
+    if (onstr) return -3;
     namebuffer[name_length] = '\0';
     name_length = 0;
   }
@@ -106,6 +108,7 @@ int find_node_end(struct cords *cordinate, char **buffer) {
     for(int j=0; buffer[i][j] != '\n'; j++) {
 
       if (buffer[i][j] == 34) {
+	if (buffer[i][j - 1] == '\\') continue;
         if (instr) {
 	  instr = 0;
 	  continue;
@@ -122,9 +125,11 @@ int find_node_end(struct cords *cordinate, char **buffer) {
       if (buffer[i][j] == '{') innode++;
       else if (buffer[i][j] == '}' && innode) innode--;
     }
+    if (instr) return -2;
   }
   return -1;
 }
+// @TODO: fixing qoute character escape sequence:
 
 int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
   keysize--;
@@ -132,7 +137,7 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
   size_t key_length = 0;
   char keybuffer[keysize];
 
-  for (int i = range->start; i != range->end; i++) {
+  for (int i = range->start + 1; i != range->end; i++) {
     for (int j = 0; buffer[i][j] != '\n'; j++) {
 
       if (buffer[i][j] == 34) {
@@ -157,7 +162,7 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
 	    if (buffer[i][j] == '=') {
 	      int c = 0;
 	      for (; buffer[i][j] != '\0'; j++) {
-	        if (buffer[i][j] == 34) {
+		if (buffer[i][j] == 34 && buffer[i][j-1] != '\\') {
 		  if (instr) {
 		    return 0;
 		  }
@@ -165,6 +170,33 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
 		  j++;
 		}
 		if (instr) {
+		  if (buffer[i][j] == '\\') {
+		    if (buffer[i][j+1] == 'n') {
+		      range->value[c] = '\n';
+		      c++;
+		      j++;
+		      continue;
+		    }else if (buffer[i][j+1] == 'r') {
+		      for (; c > 0; c--) {
+		        if (range->value[c] == '\n'){
+			  c++;
+			  break;
+		        }
+		      }
+		      j++;
+		      continue;
+		    }else if (buffer[i][j+1] == '\\') {
+		      range->value[c] = '\\';
+		      c++;
+		      j++;
+		      continue;
+		    }else if (buffer[i][j+1] == '"') {
+		      range->value[c] = '"';
+		      c++;
+		      j++;
+		      continue;
+		    }
+		  }
 		  range->value[c] = buffer[i][j];
 		  c++;
 		}

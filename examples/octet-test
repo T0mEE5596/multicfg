@@ -23,4 +23,8 @@ option-5 {
     title = "| status sec... |"
     file = "/home/tom5596/c-todo-list/modules/show-user_status"
 }
+string {
+    str = "\nnew line\nthis value\ris overwritten!\ragain"
+    quote = "\"qoutes\""
+}
 eof
