@@ -141,7 +141,7 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
   int instr = 0;
   size_t key_length = 0;
   char keybuffer[keysize];
-
+  int term = 0;
   // its range->start + 1 for now, it will be range->start later
   for (int i = range->start + 1; i != range->end; i++) {
     for (int j = 0; buffer[i][j] != '\n'; j++) {
@@ -179,39 +179,34 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
 		  if (buffer[i][j] == '\\') {
 		    if (buffer[i][j+1] == 'n') {
 		      range->value[c] = '\n';
-		      range->value[c+1] = '\0';
                       c++;
 		      j++;
 		      continue;
-		    /* @TODO: fix return carriage: it overwrites whole string
 		    }else if (buffer[i][j+1] == 'r') {
-		      for (; c > 0; c--) {
-		        if (range->value[c] == '\n') {
-			  c++;
-			  j++;
-			  inretcg = c;
-			  break;
-		        }
+		      term = c;
+		      for (; c >= 0; c--) {
+		        if (range->value[c] == '\n') break;
 		      }
-		      continue;      */
+		      c++;
+		      j++;
+		      continue;
 		    }else if (buffer[i][j+1] == '\\') {
 		      range->value[c] = '\\';
-                      range->value[c+1] = '\0';
                       c++;
 		      j++;
 		      continue;
 		    }else if (buffer[i][j+1] == '"') {
 		      range->value[c] = '"';
-                      range->value[c+1] = '\0';
 		      c++;
 		      j++;
 		      continue;
 		    }
 		  }
 		  range->value[c] = buffer[i][j];
-                  range->value[c+1] = '\0';
 		  c++;
-		}
+	        }
+	        if (c > term) range->value[c] = '\0';
+		else range->value[term] = '\0';
 	      }
 	    }
 	    j++;
