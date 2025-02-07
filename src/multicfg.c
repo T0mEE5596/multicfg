@@ -142,9 +142,10 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
   size_t key_length = 0;
   char keybuffer[keysize];
 
+  // its range->start + 1 for now, it will be range->start later
   for (int i = range->start + 1; i != range->end; i++) {
     for (int j = 0; buffer[i][j] != '\n'; j++) {
-
+      int inretcg = 0;
       if (buffer[i][j] == 34) {
         if (instr && buffer[i][j-1] != '\\') {
 	  instr = 0;
@@ -178,31 +179,37 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
 		  if (buffer[i][j] == '\\') {
 		    if (buffer[i][j+1] == 'n') {
 		      range->value[c] = '\n';
-		      c++;
+		      range->value[c+1] = '\0';
+                      c++;
 		      j++;
 		      continue;
+		    /* @TODO: fix return carriage: it overwrites whole string
 		    }else if (buffer[i][j+1] == 'r') {
 		      for (; c > 0; c--) {
-		        if (range->value[c] == '\n'){
+		        if (range->value[c] == '\n') {
 			  c++;
+			  j++;
+			  inretcg = c;
 			  break;
 		        }
 		      }
-		      j++;
-		      continue;
+		      continue;      */
 		    }else if (buffer[i][j+1] == '\\') {
 		      range->value[c] = '\\';
-		      c++;
+                      range->value[c+1] = '\0';
+                      c++;
 		      j++;
 		      continue;
 		    }else if (buffer[i][j+1] == '"') {
 		      range->value[c] = '"';
+                      range->value[c+1] = '\0';
 		      c++;
 		      j++;
 		      continue;
 		    }
 		  }
 		  range->value[c] = buffer[i][j];
+                  range->value[c+1] = '\0';
 		  c++;
 		}
 	      }
@@ -240,7 +247,9 @@ int multicfg_wrap(struct cords* data,
   strcat(copy, "0");
 
   int retvalue = getvalue(data, copy, strlen(copy), buffer_ptr);
-  if (retvalue == 0) return 0;
+  if (retvalue == 0) {
+    return 0;
+  }
   else return -5;
 
 }

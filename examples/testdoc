@@ -1,6 +1,5 @@
-emojies {
-    sad = ":-("
-    lazy = ":-P"
-    cool = "B-)"
+player-1 {
+    display-name = "coolBagCatcher"
+    last-online = "2/7/2025"
 }
 eof
