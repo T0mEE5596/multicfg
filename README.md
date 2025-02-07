@@ -27,4 +27,4 @@ we got another member in cords named `value` to save string data from key
 
 theres another comparison on node children till we finally found the one we want
 
-`multicfg_wrap` ** will do all of these once **
+`multicfg_wrap();` **will do all of these at once**
