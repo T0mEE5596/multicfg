@@ -1,6 +1,6 @@
 # multicfg
 
-a config manager equivalent to JSON written for C
+a config manager written for C
 
 it works the same but every tree is a single node
 nested nodes are not implemented yet it supports strings
@@ -26,3 +26,5 @@ now we got both start and end range to lookup
 we got another member in cords named `value` to save string data from key
 
 theres another comparison on node children till we finally found the one we want
+
+`multicfg_wrap` ** will do all of these once **

@@ -1,7 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "multicfg.h"
+#define MAX_LEN 300
+
+struct cords {
+    int start;
+    int end;
+    char value[MAX_LEN];
+};
 
 // mines strcmp (because string.h's strcmp doesnt work properly in my code *idk why)
 int stringcmp(char *str1, char *str2) {
@@ -211,3 +217,30 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
   return -1;
 }
 
+int multicfg_wrap(struct cords* data,
+		char* nodename, char* key, char* file) {
+
+  char *buffer[MAX_LEN];
+  char **buffer_ptr = buffer;
+  char copy[255];
+  if (strlen(nodename) > 255) return -1;
+  strcpy(copy, nodename);
+  strcat(copy, "0");
+
+  int open_node = find_node_start(data, copy, strlen(copy), file, buffer_ptr);
+  if (open_node == -2) return -2;
+  else if (open_node == -1) return -3;
+  else if (open_node == -3) return -4;
+
+  int close_node = find_node_end(data, buffer_ptr);
+  if (close_node == -2) return -4;
+
+  if (strlen(key) > 255) return -1;
+  strcpy(copy, key);
+  strcat(copy, "0");
+
+  int retvalue = getvalue(data, copy, strlen(copy), buffer_ptr);
+  if (retvalue == 0) return 0;
+  else return -5;
+
+}
