@@ -141,7 +141,7 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
   int instr = 0;
   size_t key_length = 0;
   char keybuffer[keysize];
-  int term = 0;
+
   // its range->start + 1 for now, it will be range->start later
   for (int i = range->start + 1; i != range->end; i++) {
     for (int j = 0; buffer[i][j] != '\n'; j++) {
@@ -177,17 +177,13 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
 		}
 		if (instr) {
 		  if (buffer[i][j] == '\\') {
-		    if (buffer[i][j+1] == 'n') {
-		      range->value[c] = '\n';
-                      c++;
+		    if (buffer[i][j+1] == ';') {
+		      range->value[c] = '\0';
 		      j++;
 		      continue;
-		    }else if (buffer[i][j+1] == 'r') {
-		      term = c;
-		      for (; c >= 0; c--) {
-		        if (range->value[c] == '\n') break;
-		      }
-		      c++;
+		    }else if (buffer[i][j+1] == 'n') {
+		      range->value[c] = '\n';
+                      c++;
 		      j++;
 		      continue;
 		    }else if (buffer[i][j+1] == '\\') {
@@ -205,8 +201,7 @@ int getvalue(struct cords *range, char *key, int keysize, char **buffer) {
 		  range->value[c] = buffer[i][j];
 		  c++;
 	        }
-	        if (c > term) range->value[c] = '\0';
-		else range->value[term] = '\0';
+	        range->value[c] = '\0';
 	      }
 	    }
 	    j++;
